@@ -1,4 +1,4 @@
-console.log("script load")
+// Jailbreak bypass script
 
 var paths = [
     "/etc/apt",
