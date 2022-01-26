@@ -60,20 +60,22 @@ def printListPrompt(name, message, list):
 def getDevice():
     return frida.get_usb_device(1)
 
-def getApplist():
+def getPackageName():
     device = getDevice()
     apps = device.enumerate_applications()
-    list = []
+    appList = []
+    packageList = []
     for app in apps :
-        print(app.name)
-        list.append({'name':app.name,'package':app.identifier})
+        appList.append(app.name)
+        packageList.append(app.identifier)
 
-    targetName = []
-    print(list)
-    targetName = printListPrompt('package', 'Choose the paacad :', list)
-    print(targetName)
+    targetName = printListPrompt('package', 'Choose the paacad :', appList)
+    index = appList.index(targetName)
+    return packageList[index]
+
+
 
 
 
 if __name__ == "__main__":
-    getApplist()
+    print(getPackageName())
