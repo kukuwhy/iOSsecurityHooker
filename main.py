@@ -2,6 +2,7 @@ import frida
 import sys
 import Utils as ut
 
+targetName = ut.getPackageName()
 def init():
     ut.colorama.init()
 
@@ -11,29 +12,29 @@ def init():
     # select devices
     #device = ut.printListPrompt('DEVICES', 'Select device :', ut.getDevice())
 
-    # auto select device
-    device = ut.getDevice()
-
     # select target APP
-    targetName = ut.printListPrompt('APP', 'Select target APP :', )
+    
 
 def main():
-    
-    
-
-    targetName = ut.printListPrompt
-
     try:
         # search iPhone device
         device = ut.getDevice()
 
         # spawn and attach target APP
-        targetPid = device.spawn(ut.targetName)
+        targetPid = device.spawn(targetName)
         session = device.attach(targetPid)
 
-        # hook script load
-        script = session.create_script(ut.jail_script)
-        script.load()
+        opt = ut.getOptionList()
+        for option in opt['options']:
+            if option == "JailBreak Bypass" :
+                script = session.create_script(ut.jail_script)
+                script.load()
+            elif option == "Anti Debug Bypass" :
+                script = session.create_script(ut.anti_script)
+                script.load()
+            elif option == "SSL pinning Bypass" :
+                script = session.create_script(ut.ssl_script)
+                script.load()
 
         # target APP resume
         device.resume(targetPid)

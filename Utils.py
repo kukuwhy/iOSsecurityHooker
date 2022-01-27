@@ -3,7 +3,7 @@ import frida
 import string
 import random
 import socket
-from PyInquirer import prompt, style_from_dict, Token
+from PyInquirer import prompt, style_from_dict, Token, Separator
 import colorama
 from termcolor import *
 import platform
@@ -54,8 +54,27 @@ def printListPrompt(name, message, list):
     ]
     pmt = prompt(questions, style=style, qmark='[?]')[name]
     return pmt
-
-
+def getOptionList():
+    questions = [
+        {
+            'type': 'checkbox',
+            'message' : 'Select Option',
+            'name' : 'options',
+            'choices' : [
+                Separator('== Bypass =='),
+                {
+                    'name': 'JailBreak Bypass'
+                },
+                {
+                    'name': 'Anti Debug Bypass'
+                },
+                {
+                    'name': 'SSL pinning Bypass'
+                }
+            ],
+        }
+    ]
+    return prompt(questions, style=style, qmark='[?]')
 
 def getDevice():
     return frida.get_usb_device(1)
@@ -77,5 +96,4 @@ def getPackageName():
 
 
 
-if __name__ == "__main__":
-    print(getPackageName())
+# if __name__ == "__main__":
