@@ -12,20 +12,20 @@ Interceptor.attach(Module.findExportByName(null, 'ptrace'), {
 })
 
 // SVC call ptrace bypass
-var m = Process.findModuleByName('ModuleName');
-var pattern = '50 03 80 D2 01 10 00 D4';
-Memory.scan(m.base, m.size, pattern, {
-	onMatch: function(address, size) {
-		console.log('\x1b[34m[!] Anti Debugging Bypass ! (SVC ptrace)\x1b[0m');
-		console.log(Memory.readByteArray(address, size));
-		Memory.protect(address, size, 'rwx');
-		Memory.writeByteArray(address.add(4), [0x1F, 0x20, 0x03, 0xD5]);
-		console.warn(Memory.readByteArray(address, size));
-	},
-	onComplete: function () {
-		console.log("[*] SVC call ptrace Anti Debugging Bypass !");
-	}
-})
+// var m = Process.findModuleByName('ModuleName');
+// var pattern = '50 03 80 D2 01 10 00 D4';
+// Memory.scan(m.base, m.size, pattern, {
+// 	onMatch: function(address, size) {
+// 		console.log('[*] SVC call Anti Debugging Bypass !');
+// 		console.log(Memory.readByteArray(address, size));
+// 		Memory.protect(address, size, 'rwx');
+// 		Memory.writeByteArray(address.add(4), [0x1F, 0x20, 0x03, 0xD5]);
+// 		console.warn(Memory.readByteArray(address, size));
+// 	},
+// 	onComplete: function () {
+// 		console.log("[*] SVC call ptrace Anti Debugging Bypass !");
+// 	}
+// })
 
 // sysctl bypass
 Interceptor.attach(Module.findExportByName(null, 'sysctl'), {
